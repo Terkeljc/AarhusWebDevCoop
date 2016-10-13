@@ -1,0 +1,16 @@
+﻿@inherits Umbraco.Web.Macros.PartialViewMacroPage
+
+
+@{  
+    var projects = CurrentPage.Site().Children.Where("DocumentTypeAlias == \"projectsMain\"").First().Children.Where("Status == \"Completed\"").OrderBy("CreateDate desc").Take(2);
+ }
+@* OrderBy() takes the property to sort by and optionally order desc/asc *@
+
+<ul>
+    @foreach (var item in projects) {
+        
+            <li><a href="@item.Url">@item.Name</a></li>
+        
+
+    }
+</ul>

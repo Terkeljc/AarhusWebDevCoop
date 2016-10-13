@@ -1,0 +1,33 @@
+﻿@inherits Umbraco.Web.Macros.PartialViewMacroPage
+@{
+    var memberService = ApplicationContext.Current.Services.MemberService;
+    var activeMembers = memberService.GetMembersByGroup("Active");
+    var prospectMembers = memberService.GetMembersByGroup("Prospect");
+
+    foreach (var member in activeMembers) {
+		// getting the image displayed
+	
+       string fullPath = member.GetValue("Photo").ToString();
+       string[] substrings = fullPath.Split(',');
+       string srcString = substrings[2];
+       string[] srcSubStrings = srcString.Split(':');
+       string srcPath = srcSubStrings[1].Replace("\"", "");
+       srcPath = srcPath.Replace("}", "");
+   
+      <img class="img-responsive" src="@srcPath" />
+      
+		<p>
+            @(member.GetValue("Firstname") + " " + member.GetValue("Lastname")) <br />
+            @member.GetValue("Address")<br />
+            @(member.GetValue("Zip") + " " + member.GetValue("City"))<br/>
+            Mobile: @member.GetValue("Mobile")<br />
+        </p>
+    }
+
+    foreach (var member in prospectMembers) {
+        <p>
+            @(member.GetValue("Firstname") + " " + member.GetValue("Lastname" )) <br />
+            @member.GetValue("Mobile") 
+        </p>
+    }
+}
